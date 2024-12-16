@@ -22,7 +22,7 @@ const cognito = new AWS.CognitoIdentityServiceProvider({
 
 
 
-signup.post('/customer/signup', async (req, res) => {
+signup.post('app/customer/signup', async (req, res) => {
     const { userName, password, email, phoneNumber, fullName } = req.body;
     const secretHash = calculateSecretHash(userName);
     if (!userName || !password || !email) {
@@ -66,7 +66,7 @@ const params = {
     }
 });
 
-signup.post('/staff/signup', async (req, res) => {
+signup.post('app/staff/signup', async (req, res) => {
     
     const { userName, password, email, phoneNumber, fullName } = req.body;
     const secretHash = calculateSecretHash(userName);
@@ -110,7 +110,7 @@ const params = {
     }
 });
 
-signup.post('/admin/signup', async (req, res) => {
+signup.post('dashboard/admin/signup', async (req, res) => {
     const { userName, password, email, phoneNumber, fullName } = req.body;
     const secretHash = calculateSecretHash(userName);
     if (!userName || !password || !email) {
@@ -154,7 +154,7 @@ const params = {
     }
 });
 
-signup.post('/dealer/signup', async (req, res) => {
+signup.post('dashboard/dealer/signup', async (req, res) => {
     const { userName, password, email, phoneNumber, fullName } = req.body;
     const secretHash = calculateSecretHash(userName);
 
