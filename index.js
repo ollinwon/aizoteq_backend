@@ -192,28 +192,11 @@ app.post(
 
 
 
-app.post('/app/homes', (req, res) => {
-    const { id, name, createdBy } = req.body;
-
-    // Validate the request body
-    if (!id || !name) {
-        return res.status(400).json({ error: 'id and name are required.' });
-    }
-
-    
-
-    db.query('INSERT INTO Homes (id, name, createdBy) VALUES (?, ?, ?)', [id, name, createdBy], (err, result) => {
-        if (err) {
-            console.error('Error inserting data:', err);
-            return res.status(500).json({ error: 'Failed to add the home.' });
-        }
-        res.status(201).json({ message: 'Home added successfully!', result });
-    });
-});
 
 
 
-// Start the Express app
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
