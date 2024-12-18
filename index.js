@@ -111,7 +111,7 @@ app.post(
     async (req, res) => {
         const { error } = bodySchema.validate(req.body);
         if (error) {
-            return res.status(400).json({ message: 'Invalid input data', error: error.details });
+            return res.status(400).json({ message: "Invalid input data", error: error.details });
         }
 
         const { thing, attributes } = req.body;
@@ -148,7 +148,9 @@ app.post(
                 // Validate and Insert Devices
                 const totalDevices = parseInt(attr.attributeValue, 10);
                 if (totalDevices > 100) { // Limit the number of devices
-                    throw new Error(`Too many devices requested for attribute ${attr.attributeName}`);
+                    throw new Error(
+                        `Too many devices requested for attribute ${attr.attributeName}`
+                    );
                 }
 
                 for (let i = 1; i <= totalDevices; i++) {
@@ -176,6 +178,13 @@ app.post(
                 }
             }
 
+            // Insert into AdminStock
+            await connection.query(
+                `INSERT INTO AdminStock (thingId, addedAt, addedBy, status)
+                 VALUES (?, CURRENT_TIMESTAMP, ?, ?)`,
+                [thing.serialno, req.user.username, "new"]
+            );
+
             // Commit transaction
             await connection.commit();
             res.status(201).json({ message: "Data inserted successfully" });
@@ -188,6 +197,7 @@ app.post(
         }
     }
 );
+
 
 
 
