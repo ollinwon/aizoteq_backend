@@ -16,6 +16,7 @@ CREATE TABLE Things (
     model VARCHAR(255),
     serialno VARCHAR(255),
     type VARCHAR(255),
+    securityKey VARCHAR(255),
     lastModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -35,9 +36,7 @@ CREATE TABLE Devices (
     thingId VARCHAR(255),    -- Foreign key linking Devices to Things
     deviceId VARCHAR(255) NOT NULL UNIQUE,
     macAddress VARCHAR(255),
-    securityKey VARCHAR(255),
     hubIndex VARCHAR(255),
-    roomId VARCHAR(255),
     createdBy VARCHAR(255),
     enable BOOLEAN,
     status VARCHAR(255) CHECK (status IN ('new', 'returned', 'rework', 'exchange')), -- Status of the device
@@ -46,7 +45,7 @@ CREATE TABLE Devices (
     type VARCHAR(255),
     lastModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (thingId) REFERENCES Things(id),
-    FOREIGN KEY (roomId) REFERENCES Rooms(id)
+
 );
 
 -- Table to store admin stock information
@@ -56,6 +55,6 @@ CREATE TABLE AdminStock (
     addedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     addedBy VARCHAR(255), -- User who added the device to AdminStock probably hardware staff
     status VARCHAR(255) CHECK (status IN ('new', 'returned', 'rework', 'exchange')), -- Status of the device in stock
-    FOREIGN KEY (deviceId) REFERENCES Devices(id),
+    FOREIGN KEY (thingId) REFERENCES Things(id),
     FOREIGN KEY (addedBy) REFERENCES Users(id)
 );
